@@ -1,0 +1,43 @@
+services:
+  - docker
+
+jobs:
+  include:
+    - name: Deploy Artifacts
+      env:
+        - REGISTRY_HOST=${REGISTRY_HOST}
+        - REGISTRY_USER=${REGISTRY_USER}
+        - REGISTRY_PASSWORD=${REGISTRY_PASSWORD}
+        - REGISTRY_NAMESPACE=${REGISTRY_NAMESPACE}
+        - REGISTRY=${REGISTRY_HOST}/${REGISTRY_NAMESPACE}
+        - REGISTRY_IMAGE_NAME=${REGISTRY_IMAGE_NAME}
+        - GARASIGN_PASSWORD=${GARASIGN_PASSWORD}
+        - GARASIGN_PFX=${GARASIGN_PFX}
+        - GARASIGN_EAL_CODE_SIGNING_URI=${GARASIGN_EAL_CODE_SIGNING_URI}
+        - GARASIGN_EAL_PUBLIC_KEY_NAME=${GARASIGN_EAL_PUBLIC_KEY_NAME}
+        - COS_APIKEY=${COS_APIKEY}
+      addons:
+        apt:
+          packages:
+            - libpcsclite-dev
+            - jq
+      before_install:
+        - git clone git@github.com:dotbrains/travis-shared-config.git tmp
+        - mv tmp/container-registry ./
+      install:
+        - source container-registry/fetch_cosign_binary.sh
+        - source container-registry/fetch_garasign_client.sh
+      before_deploy:
+        - /opt/Garantir/bin/GrsGPGLoader
+        - /opt/Garantir/bin/garasign listkeys
+      deploy:
+        - provider: script
+          skip_cleanup: true
+          script: bash container-registry/sign_and_push_image.sh ${TRAVIS_TAG}
+          on:
+            tags: true
+        - provider: script
+          skip_cleanup: true
+          script: bash container-registry/sign_and_push_image.sh ${TRAVIS_BRANCH}-${TRAVIS_COMMIT}
+          on:
+            branch: development

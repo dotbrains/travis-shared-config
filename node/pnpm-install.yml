@@ -1,0 +1,12 @@
+cache:
+  npm: false
+  directories:
+    - "~/.pnpm-store"
+
+before_install:
+  - corepack enable
+  - corepack prepare pnpm@latest-8 --activate
+  - pnpm config set store-dir ~/.pnpm-store
+  - echo "strict-peer-dependencies=false" >> .npmrc
+  - echo "//registry.npmjs.org/:_authToken=" >> .npmrc
+  - 'curl -H "Authorization: Bearer ${ARTIFACTORY_API_KEY}" "${ARTIFACTORY_URL}/artifactory/api/npm/${ARTIFACTORY_REPO}/auth/console" >> .npmrc'

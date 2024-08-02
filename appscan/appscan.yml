@@ -1,0 +1,17 @@
+jobs:
+  include:
+    - name: Static Code Analysis
+      env:
+        - APPSCAN_API_KEY=${APPSCAN_API_KEY}
+        - APPSCAN_API_SECRET=${APPSCAN_API_SECRET}
+        - APPSCAN_APP_ID=${APPSCAN_APP_ID}
+        - APPSCAN_NAME=${TRAVIS_BRANCH}-${TRAVIS_COMMIT}
+      addons:
+        apt:
+          packages:
+            - jq
+      cache: false
+      before_install:
+        - git clone git@github.ibm.com:nicholas-adamou/travis-shared-config.git tmp
+        - mv tmp/scripts . && rm -rf tmp
+      script: bash appscan/appscan_sca.sh

@@ -1,0 +1,21 @@
+version: ~> 3.0
+
+import:
+  - source: dotbrains/travis-shared-config:node/node-base.yml@main
+    mode: merge
+  - source: dotbrains/travis-shared-config:base.yml@main
+    mode: merge
+  - source: dotbrains/travis-shared-config:node/pnpm-install.yml@main
+  - source: dotbrains/travis-shared-config:cirrus/cirrus-deploy-stage.yml@main
+    if: type = push
+  - source: dotbrains/travis-shared-config:docker-build-stage.yml@main
+    if: type = pull_request
+  - source: dotbrains/travis-shared-config:appscan/appscan.yml@main
+    if: type IN (pull_request, push) AND branch IN (development, master)
+  - source: dotbrains/travis-shared-config:detect-secrets/detect-secrets.yml@main
+    if: type = pull_request
+  - source: dotbrains/travis-shared-config:appscan/node-prepare-cache.yml@main
+    if: type = pull_request
+
+install: skip
+script: skip

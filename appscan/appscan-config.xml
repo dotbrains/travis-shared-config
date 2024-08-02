@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Configuration sourceCodeOnly="true" staticAnalysisOnly="true">
+  <Targets>
+    <Target path="..">
+      <Exclude>.github/</Exclude>
+      <Exclude>.husky/</Exclude>
+      <Exclude>node_modules/</Exclude>
+      <Exclude>src/static/</Exclude>
+      <Exclude>*.svg</Exclude>
+      <Exclude>*.yml</Exclude>
+      <Exclude>*.yaml</Exclude>
+    </Target>
+  </Targets>
+</Configuration>

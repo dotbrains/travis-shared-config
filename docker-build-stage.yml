@@ -1,0 +1,14 @@
+services:
+  - docker
+
+jobs:
+  include:
+    - name: Build Artifacts
+      script: |
+        compose_file="$(find . -regex '\.\/docker-compose\(-prod\)?.ya?ml')"
+        if [ -f "$compose_file" ]; then
+          docker-compose -f "$compose_file" build --progress plain
+        else
+          echo "No docker-compose file found"
+          exit 1
+        fi

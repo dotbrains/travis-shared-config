@@ -1,0 +1,4 @@
+jobs:
+  include:
+    - name: Prepare Cache
+      install: pnpm install
