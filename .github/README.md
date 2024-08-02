@@ -27,7 +27,7 @@ import:
     mode: merge
   - source: my-username/my-shared-config:docker-build-stage.yml@main
     if: type = pull_request
-  - source: my-username/my-shared-config:cirrus/cirrus-deploy-stage.yml@main
+  - source: my-username/my-shared-config:container-registry/container-deploy-stage.yml@main
     if: type = push
 
 install: skip
