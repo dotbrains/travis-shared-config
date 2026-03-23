@@ -73,4 +73,4 @@ Travis v3 Shared Config simplifies and standardizes the build process across mul
 
 ## License
 
-[Apache 2.0](LICENSE)
+This project is licensed under the [PolyForm Shield License 1.0.0](https://polyformproject.org/licenses/shield/1.0.0/) -- see [LICENSE](LICENSE) for details.
